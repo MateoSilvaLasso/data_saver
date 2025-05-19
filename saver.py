@@ -19,30 +19,6 @@ class SaverOnline:
         client = gspread.authorize(creds)
         self.sheet = client.open(sheet_name).sheet1
 
-    def guardar_datos(self, data_str: str):
-        campos = [
-            "Nombre completo",
-            "Correo",
-            "Celular",
-            "Colegio",
-            "Puntaje Icfes",
-            "Estrato socioeconómico"
-        ]
-        datos = {}
-
-        # Dividir por líneas y luego extraer campo: valor
-        for linea in data_str.strip().split('\n'):
-            if ':' in linea:
-                clave, valor = linea.split(':', 1)
-                clave = clave.strip()
-                valor = valor.strip()
-                if clave in campos:
-                    datos[clave] = valor
-
-        # Validar que están todos los campos
-        if len(datos) != len(campos):
-            raise ValueError("Faltan datos o hay campos incorrectos en la entrada")
-
-        fila = [datos[campo] for campo in campos]
+    def guardar_datos(self, nombre_completo, correo, celular, colegio, puntaje_icfes, estrato):
+        fila = [nombre_completo, correo, celular, colegio, puntaje_icfes, estrato]
         self.sheet.append_row(fila)
-
