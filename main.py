@@ -1,6 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from saver import SaverOnline
+from dotenv import load_dotenv
+import os
 app = FastAPI()
 
 
@@ -16,7 +18,7 @@ class UserData(BaseModel):
 @app.post("/save_user_data")
 def save_user_data(user_data: UserData):
     try:
-        saver = SaverOnline('./credentials.json', 'TdG - I-Andy')
+        saver = SaverOnline('TdG - I-Andy')
         saver.guardar_datos(user_data.nombre_completo, user_data.correo, user_data.celular, user_data.colegio, user_data.puntaje_icfes, user_data.estrato)
         return {"message": "Datos guardados correctamente en la base de datos."}
     except Exception as e:
